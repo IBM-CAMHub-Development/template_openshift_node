@@ -1,0 +1,454 @@
+{
+  "input_datatypes": [
+    {
+      "name": "bastionhost",
+      "label": "Bastion Data"
+    }
+  ], 
+  "output_datatypes": [
+  ],
+  "input_groups": [
+    {
+      "name": "vsphere_managed_inventory_definition",
+      "label": "vSphere Managed Inventory Definition"
+    },
+    {
+      "name": "rh_ocp",
+      "label": "RedHat Settings"
+    },
+    {
+      "name": "singlevirtualmachine",
+      "label": "New Node Input Settings"
+    }
+  ],
+  "template_input_params": [
+    {
+      "name": "bastion_host",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion host for ssh proxy",
+      "default": "${bastionhost.bastion_host}",
+      "label": "Bastion host",
+      "secured": false,
+      "required": false
+    },
+    {
+      "name": "bastion_port",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion port for ssh proxy",
+      "default": "${bastionhost.bastion_port}",
+      "label": "Bastion port",
+      "secured": false,
+      "required": false
+    },
+    {
+      "name": "bastion_user",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion user for ssh proxy",
+      "default": "${bastionhost.bastion_user}",
+      "label": "Bastion user",
+      "secured": false,
+      "required": false
+    },
+    {
+      "name": "bastion_private_key",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion private key for ssh proxy",
+      "default": "${bastionhost.bastion_private_key}",
+      "label": "Bastion private key",
+      "secured": true,
+      "required": false
+    },  
+    {
+      "name": "bastion_password",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion user password for ssh proxy",
+      "default": "${bastionhost.bastion_password}",
+      "label": "Bastion user password",
+      "secured": true,
+      "required": false
+    },
+    {
+      "name": "bastion_host_key",
+      "type": "string",
+      "hidden": true,
+      "description": "Bastion host public key for ssh proxy",
+      "default": "${bastionhost.bastion_host_key}",
+      "label": "Bastion host key",
+      "secured": false,
+      "required": false
+    },
+    {
+      "name": "installer_vm_ipv4_address",
+      "description": "Installer Node IP Address",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Installer Node IP Address",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_enable_glusterFS",
+      "description": "Enable / Disable the installation of Gluster File System in the new node",
+      "default": "false",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Enable OpenShift GlusterFS on New Nodes",
+      "hidden": false,
+      "immutable": false,
+      "options": [
+        {
+          "value": "true",
+          "label": "true"
+        },
+        {
+          "value": "false",
+          "label": "false",
+          "default": true
+        }
+      ],
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_hostname_ip",
+      "description": "New Node Hostname and IP Address",
+      "default": {
+        "Hostname": "0.0.0.0"
+      },
+      "type": "map",
+      "required": true,
+      "secured": false,
+      "label": "New Node Hostname and IP Address",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_memory",
+      "description": "New Node Memory Allocation (MB)",
+      "default": "32768",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node Memory Allocation (MB)",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vcpu",
+      "description": "New Node vCPU Allocation",
+      "default": "16",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node vCPU Allocation",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_disk1_keep_on_remove",
+      "default": "false",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "node_vm_disk1_keep_on_remove",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_disk1_size",
+      "description": "New Node Disk Size Disk 1 (GB)",
+      "default": "200",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node Disk 1 Size (GB)",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_disk2_enable",
+      "default": "true",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "node_vm_disk2_enable",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_disk2_keep_on_remove",
+      "default": "false",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "node_vm_disk2_keep_on_remove",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_disk2_size",
+      "description": "New Node Disk Size Disk 2 (GB)",
+      "default": "100",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node Disk 2 Size (GB)",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine"
+    },
+    {
+      "name": "node_vm_ipv4_gateway",
+      "description": "New Node IP Gateway Address",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node IPV4 Gateway",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine",
+      "regex": "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9]).){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$",
+      "regexdesc": "Provide a Valid IP address for the Virtual Machine Gateway"
+    },
+    {
+      "name": "node_vm_ipv4_prefix_length",
+      "description": "Integer value between 1 and 32 for the prefix length, CIDR, to use when statically assigning an IPv4 address",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "New Node IP Netmask (CIDR)",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "singlevirtualmachine",
+      "regex": "^([8-9]|[1-2][0-9]|3[0-2])$"
+    },
+    {
+      "name": "os_private_ssh_key",
+      "default": "",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "os_private_ssh_key",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "rh_ocp"
+    },
+    {
+      "name": "os_public_ssh_key",
+      "default": "",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "os_public_ssh_key",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "rh_ocp"
+    },
+    {
+      "name": "rh_user",
+      "description": "Red Hat Account Username",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Red Hat Account Username",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "rh_ocp"
+    },
+    {
+      "name": "rh_password",
+      "description": "Red Hat Account Password",
+      "type": "string",
+      "required": true,
+      "secured": true,
+      "label": "Red Hat Account Password",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "rh_ocp"
+    },
+    {
+      "name": "vsphere_datacenter",
+      "description": "The name of a Datacenter in which to launch the OpenShift.",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "vSphere DataCenter Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vsphere_resource_pool",
+      "description": "Name of the VMware resource pool the OpenShift cluster VMs will be deployed into.",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "vSphere Resource Pool Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_network_interface_label",
+      "description": "Name of the VMware network the OpenShift cluster VMs will be deployed into.",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "vSphere Network Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_folder",
+      "description": "Name of the vSphere Folder the OpenShift cluster VMs will be deployed into",
+      "type": "string",
+      "required": false,
+      "secured": false,
+      "label": "vSphere Folder Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_disk1_datastore",
+      "description": "Virtual Machine Datastore Name - Disk 1",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Virtual Machine Datastore Name - Disk 1",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_disk2_datastore",
+      "description": "Virtual Machine Datastore Name - Disk 2",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Virtual Machine Datastore Name - Disk 2",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_adapter_type",
+      "default": "vmxnet3",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "vm_adapter_type",
+      "hidden": true,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_clone_timeout",
+      "description": "The timeout, in minutes, to wait for the virtual machine clone to complete.",
+      "default": "30",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Virtual Machine Clone Timeout",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_dns_servers",
+      "description": "List of DNS servers for the virtual network adapter. For more than one DNS, the values can be entered by adding more fields.",
+      "type": "list",
+      "required": true,
+      "secured": false,
+      "label": "OpenShift DNS Servers",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_dns_suffixes",
+      "description": "Name resolution suffixes for the virtual network adapter",
+      "type": "list",
+      "required": true,
+      "secured": false,
+      "label": "OpenShift DNS Suffixes",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_template",
+      "description": "Virtual Machine Template Name",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Virtual Machine Template Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_domain",
+      "description": "OpenShift Virtual Machine's domain name",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "OpenShift Domain Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_os_user",
+      "description": "The user name to use while configuring OpenShift.",
+      "default": "root",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Virtual Machine Template User Name",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    },
+    {
+      "name": "vm_os_password",
+      "description": "The user password to use while configuring OpenShift.",
+      "type": "string",
+      "required": true,
+      "secured": true,
+      "label": "Virtual Machine Template User Password",
+      "hidden": false,
+      "immutable": false,
+      "group_name": "vsphere_managed_inventory_definition"
+    }
+  ],
+  "template_output_params": [
+    {
+      "name": "openshift_url",
+      "type": "url",
+      "description": "OpenShift Cluster URL.",
+      "hidden": false,
+      "label": "OpenShift Cluster URL",
+      "shortname": "OpenShift Console",
+      "secured": false,
+      "system": false,
+      "required": true,
+      "immutable": false
+    }
+  ]
+}
